@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Produk</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            max-width: 500px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        h2, h3 {
+            color: #0277bd;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #b3e5fc;
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 22px);
+        }
+        button {
+            background-color: #0288d1;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #01579b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Manajemen Produk</h2>
+        <ul id="produkList"></ul>
+        
+        <h3>Tambah Produk</h3>
+        <input type="text" id="nama" placeholder="Nama Produk">
+        <input type="number" id="harga" placeholder="Harga Produk">
+        <button onclick="eventHandler('tambah')">Tambah Produk</button>
+        
+        <h3>Hapus Produk</h3>
+        <input type="number" id="hapusId" placeholder="ID Produk">
+        <button onclick="eventHandler('hapus')">Hapus Produk</button>
+    </div>
+    
+    <script>
+        let produkList = [
+            { id: 1, nama: "Laptop", harga: 12000000 },
+            { id: 2, nama: "Smartphone", harga: 5000000 },
+            { id: 3, nama: "Tablet", harga: 7000000 },
+            { id: 4, nama: "Smartwatch", harga: 2000000 },
+            { id: 5, nama: "Headset", harga: 800000 },
+            { id: 6, nama: "Keyboard", harga: 1500000 },
+            { id: 7, nama: "Mouse", harga: 500000 }
+        ];
+
+        function tampilkanProduk() {
+            const list = document.getElementById("produkList");
+            list.innerHTML = "";
+            produkList.forEach(({ id, nama, harga }) => {
+                let li = document.createElement("li");
+                li.textContent = `${id}. ${nama} - Rp${harga.toLocaleString()}`;
+                list.appendChild(li);
+            });
+        }
+        
+        function tambahProduk(id, nama, harga) {
+            produkList.push({ id, nama, harga });
+            tampilkanProduk();
+        }
+
+        function hapusProduk(id) {
+            produkList = produkList.filter(produk => produk.id !== id);
+            tampilkanProduk();
+        }
+
+        function eventHandler(action) {
+            if (action === "tambah") {
+                const nama = document.getElementById("nama").value;
+                const harga = parseInt(document.getElementById("harga").value);
+                const id = produkList.length ? produkList[produkList.length - 1].id + 1 : 1;
+                if (nama && harga) tambahProduk(id, nama, harga);
+            } else if (action === "hapus") {
+                const id = parseInt(document.getElementById("hapusId").value);
+                hapusProduk(id);
+            }
+        }
+
+        tampilkanProduk();
+    </script>
+</body>
+</html>
